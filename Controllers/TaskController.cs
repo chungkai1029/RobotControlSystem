@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RobotControlSystem.Models;
+using System.Text.Json;
 
 namespace RobotControlSystem.Controllers
 {
@@ -7,10 +9,55 @@ namespace RobotControlSystem.Controllers
     [ApiController]
     public class TaskController : ControllerBase
     {
+        HeaderFields headerFields;
+
+        private string pathOfHeaderConfig = "./Configs/header.json";
+        private string requestToken;
+        private string requestName;
+        private string requestBody;
+
         [HttpPost("add")]
-        public ActionResult TaskAdd(HttpRequest request)
+        public IActionResult TaskAdd([FromBody] TaskAddRequest taskAddRequest)
         {
-            return Ok();
+            try
+            {
+                // Check the request header for data proof.
+                IHeaderDictionary headers = Request.Headers;
+
+                // Check if request headers contain two keys as below.
+                if (!(headers.ContainsKey("token") || headers.ContainsKey("name")))
+                {
+                    return Unauthorized();
+                }
+
+                // Get the value of two keys as below.
+                requestToken = headers["token"];
+                requestName = headers["name"];
+
+                // Check if the value of the header fields is the same as define.
+                using (FileStream fs = System.IO.File.OpenRead(pathOfHeaderConfig))
+                {
+                    headerFields = JsonSerializer.Deserialize<HeaderFields>(fs);
+
+                    if(requestToken != headerFields.token || requestName != headerFields.name)
+                    {
+                        return Unauthorized();
+                    }
+                }
+                
+                // Serialize as a json string from request body.
+                JsonSerializerOptions options = new JsonSerializerOptions { WriteIndented = true };
+                requestBody = JsonSerializer.Serialize(taskAddRequest, options);
+
+                Console.WriteLine($"requestBody={requestBody}");
+
+                return Ok(requestBody);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception={ex}");
+                return BadRequest();
+            }
         }
 
         [HttpGet("getTaskChainByIds")]
