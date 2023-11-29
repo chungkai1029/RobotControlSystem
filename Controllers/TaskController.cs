@@ -10,11 +10,13 @@ namespace RobotControlSystem.Controllers
     public class TaskController : ControllerBase
     {
         HeaderFields headerFields;
+        TaskAddResponse taskAddResponse;
 
         private string pathOfHeaderConfig = "./Configs/header.json";
         private string requestToken;
         private string requestName;
         private string requestBody;
+        private string responseBody;
 
         [HttpPost("add")]
         public IActionResult TaskAdd([FromBody] TaskAddRequest taskAddRequest)
@@ -41,17 +43,28 @@ namespace RobotControlSystem.Controllers
 
                     if(requestToken != headerFields.token || requestName != headerFields.name)
                     {
-                        return Unauthorized();
+                        return Forbid();
                     }
                 }
                 
                 // Serialize as a json string from request body.
                 JsonSerializerOptions options = new JsonSerializerOptions { WriteIndented = true };
+                
                 requestBody = JsonSerializer.Serialize(taskAddRequest, options);
-
                 Console.WriteLine($"requestBody={requestBody}");
 
-                return Ok(requestBody);
+                // Serialize response message as a json string.
+                taskAddResponse = new TaskAddResponse();
+
+                taskAddResponse.errMsg = "操作成功";
+                taskAddResponse.errCode = "0";
+                taskAddResponse.state = true;
+                taskAddResponse.data = 55899;
+
+                responseBody = JsonSerializer.Serialize(taskAddResponse, options);
+                Console.WriteLine($"responseBody={responseBody}");
+                
+                return Ok(responseBody);
             }
             catch (Exception ex)
             {
