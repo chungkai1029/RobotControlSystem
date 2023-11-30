@@ -9,12 +9,10 @@ namespace RobotControlSystem.Controllers
     [ApiController]
     public class TaskController : ControllerBase
     {
-        HeaderFields headerFields;
+        CheckHeaders checkHeaders;
         TaskAddResponse taskAddResponse;
 
-        private string pathOfHeaderConfig = "./Configs/header.json";
-        private string requestToken;
-        private string requestName;
+        private int checkStatusCode;
         private string requestBody;
         private string responseBody;
 
@@ -24,46 +22,40 @@ namespace RobotControlSystem.Controllers
             try
             {
                 // Check the request header for data proof.
-                IHeaderDictionary headers = Request.Headers;
+                IHeaderDictionary requestHeaders = Request.Headers;
 
-                // Check if request headers contain two keys as below.
-                if (!(headers.ContainsKey("token") || headers.ContainsKey("name")))
+                // Initialize the Header Checker and check headers.
+                checkHeaders = new CheckHeaders();
+                checkStatusCode = checkHeaders.check(requestHeaders);
+
+                if (checkStatusCode == StatusCodes.Status401Unauthorized)
                 {
                     return Unauthorized();
                 }
 
-                // Get the value of two keys as below.
-                requestToken = headers["token"];
-                requestName = headers["name"];
-
-                // Check if the value of the header fields is the same as define.
-                using (FileStream fs = System.IO.File.OpenRead(pathOfHeaderConfig))
+                if (checkStatusCode == StatusCodes.Status403Forbidden)
                 {
-                    headerFields = JsonSerializer.Deserialize<HeaderFields>(fs);
-
-                    if(requestToken != headerFields.token || requestName != headerFields.name)
-                    {
-                        return Forbid();
-                    }
+                    return Forbid();
                 }
-                
+
                 // Serialize as a json string from request body.
                 JsonSerializerOptions options = new JsonSerializerOptions { WriteIndented = true };
-                
+
                 requestBody = JsonSerializer.Serialize(taskAddRequest, options);
                 Console.WriteLine($"requestBody={requestBody}");
 
                 // Serialize response message as a json string.
-                taskAddResponse = new TaskAddResponse();
-
-                taskAddResponse.errMsg = "操作成功";
-                taskAddResponse.errCode = "0";
-                taskAddResponse.state = true;
-                taskAddResponse.data = 55899;
+                taskAddResponse = new TaskAddResponse
+                {
+                    errMsg = "操作成功",
+                    errCode = "0",
+                    state = true,
+                    data = 55899
+                };
 
                 responseBody = JsonSerializer.Serialize(taskAddResponse, options);
                 Console.WriteLine($"responseBody={responseBody}");
-                
+
                 return Ok(responseBody);
             }
             catch (Exception ex)
