@@ -19,7 +19,7 @@ namespace RobotControlSystem.Models
         public int check(IHeaderDictionary requestHeaders)
         {
             // Check if request headers contain two keys as below.
-            if (!(requestHeaders.ContainsKey("token") || requestHeaders.ContainsKey("name")))
+            if (!(requestHeaders.ContainsKey("token") || !requestHeaders.ContainsKey("name")))
             {
                 return StatusCodes.Status401Unauthorized;
             }
@@ -32,8 +32,8 @@ namespace RobotControlSystem.Models
             using (FileStream fs = File.OpenRead(pathOfHeaderConfig))
             {
                 headers = JsonSerializer.Deserialize<Headers>(fs);
-                Console.WriteLine($"token={headers.token}, name={headers.name}");
-                Console.WriteLine($"requestToken={requestToken}, requestName={requestName}");
+                //Console.WriteLine($"token={headers.token}, name={headers.name}");
+                //Console.WriteLine($"requestToken={requestToken}, requestName={requestName}");
 
                 if (requestToken != headers.token || requestName != headers.name)
                 {
