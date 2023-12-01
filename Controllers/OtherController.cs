@@ -1,6 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Net;
+﻿using Microsoft.AspNetCore.Mvc;
+using RobotControlSystem.Models;
 
 namespace RobotControlSystem.Controllers
 {
@@ -9,7 +8,7 @@ namespace RobotControlSystem.Controllers
     public class OtherController : ControllerBase
     {
         [HttpPost("push/taskInfo")]
-        public ActionResult TaskInfo(HttpRequest request)
+        public ActionResult PushTaskInfo([FromBody] PushTaskInfoRequest pushTaskInfoRequest)
         {
             return Ok();
         }

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace RobotControlSystem.Controllers
 {
@@ -8,13 +7,13 @@ namespace RobotControlSystem.Controllers
     public class TaskChainController : ControllerBase
     {
         [HttpPut("reassignByAmrId/{amrId}")]
-        public ActionResult ReAssignByAmrId(HttpRequest request)
+        public ActionResult ReassignByAmrId(HttpRequest request)
         {
             return Ok();
         }
 
         [HttpPut("reassignByTaskChainId/{taskChainId}")]
-        public ActionResult ReAssignByTaskChainId(HttpRequest request)
+        public ActionResult ReassignByTaskChainId(HttpRequest request)
         {
             return Ok();
         }

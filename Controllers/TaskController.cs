@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RobotControlSystem.Models;
 using System.Text.Json;
 
@@ -78,7 +77,7 @@ namespace RobotControlSystem.Controllers
         }
 
         [HttpGet("priority")]
-        public ActionResult Priority(HttpRequest request)
+        public ActionResult TaskPriority(HttpRequest request)
         {
             return Ok();
         }

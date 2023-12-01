@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace RobotControlSystem.Controllers
 {
@@ -14,13 +13,13 @@ namespace RobotControlSystem.Controllers
         }
 
         [HttpPost("taskCommand/pause/{amrId}")]
-        public ActionResult TaskCommandPause(HttpRequest request)
+        public ActionResult AmrTaskCommandPause(HttpRequest request)
         {
             return Ok();
         }
 
         [HttpPost("taskCommand/resume/{amrId}")]
-        public ActionResult TaskCommandResume(HttpRequest request)
+        public ActionResult AmrTaskCommandResume(HttpRequest request)
         {
             return Ok();
         }
