@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RobotControlSystem.Models;
 
 namespace RobotControlSystem.Controllers
 {
@@ -7,19 +8,19 @@ namespace RobotControlSystem.Controllers
     public class TaskChainTemplateController : ControllerBase
     {
         [HttpGet("submit/{id}")]
-        public ActionResult TemplateSubmit(HttpRequest request)
+        public ActionResult TemplateSubmit([FromBody] TemplateSubmitRequest templateSubmitRequest)
         {
             return Ok();
         }
 
         [HttpPost("list")]
-        public ActionResult TemplateList(HttpRequest request)
+        public ActionResult TemplateList([FromBody] TemplateListRequest templateListRequest)
         {
             return Ok();
         }
 
         [HttpPost("generic/submit")]
-        public ActionResult GenericSubmit(HttpRequest request)
+        public ActionResult GenericSubmit([FromBody] GenericSubmitRequest genericSubmitRequest)
         {
             return Ok();
         }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RobotControlSystem.Models;
 
 namespace RobotControlSystem.Controllers
 {
@@ -6,34 +7,33 @@ namespace RobotControlSystem.Controllers
     [ApiController]
     public class TaskController : ControllerBase
     {
+        CheckHeaders checkHeaders;
+        TaskAddResponse taskAddResponse;
+
+        int checkStatusCode;
+        string requestBody;
+        string responseBody;
+
         [HttpPost("add")]
-        public ActionResult TaskAdd(dynamic request)
+        public ActionResult TaskAdd(HttpRequest request)
         {
-            try
-            {
-                Console.WriteLine(request);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Exception={ex}");
-            }
             return Ok();
         }
 
         [HttpGet("getTaskChainByIds")]
-        public ActionResult GetTaskChainByIds(HttpRequest request)
+        public ActionResult GetTaskChainByIds([FromBody] GetTaskChainByIdsRequest getTaskChainByIdsRequest)
         {
             return Ok();
         }
 
         [HttpPost("cancel/{id}")]
-        public ActionResult TaskCancel(HttpRequest request)
+        public ActionResult TaskCancel([FromBody] TaskCancelRequest taskCancelRequest)
         {
             return Ok();
         }
 
         [HttpGet("priority")]
-        public ActionResult Priority(HttpRequest request)
+        public ActionResult TaskPriority([FromBody] TaskPriorityRequest taskPriorityRequest)
         {
             return Ok();
         }

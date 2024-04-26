@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RobotControlSystem.Models;
 
 namespace RobotControlSystem.Controllers
 {
@@ -7,19 +8,19 @@ namespace RobotControlSystem.Controllers
     public class AmrController : ControllerBase
     {
         [HttpGet("onlineAmr")]
-        public ActionResult OnlineAmr(HttpRequest request)
+        public ActionResult OnlineAmr()
         {
             return Ok();
         }
 
         [HttpPost("taskCommand/pause/{amrId}")]
-        public ActionResult TaskCommandPause(HttpRequest request)
+        public ActionResult AmrTaskCommandPause([FromBody] AmrTaskCommandPauseRequest amrTaskCommandPauseRequest)
         {
             return Ok();
         }
 
         [HttpPost("taskCommand/resume/{amrId}")]
-        public ActionResult TaskCommandResume(HttpRequest request)
+        public ActionResult AmrTaskCommandResume([FromBody] AmrTaskCommandResumeReqeust amrTaskCommandResumeReqeust)
         {
             return Ok();
         }
