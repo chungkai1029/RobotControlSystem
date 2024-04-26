@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace RobotControlSystem.Controllers
 {
@@ -8,8 +7,16 @@ namespace RobotControlSystem.Controllers
     public class TaskController : ControllerBase
     {
         [HttpPost("add")]
-        public ActionResult TaskAdd(HttpRequest request)
+        public ActionResult TaskAdd(dynamic request)
         {
+            try
+            {
+                Console.WriteLine(request);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception={ex}");
+            }
             return Ok();
         }
 
